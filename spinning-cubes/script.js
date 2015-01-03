@@ -8,6 +8,7 @@ ctx.fillStyle = "rgb(0,0,0)";
 var OFFSET_CONST = 1;
 var LOOP_LENGTH = 400;
 var NUM_CUBES = 28;
+var ISO_FACTOR = 0.7;
 var cubes = [];
 
 // set up cubes
@@ -47,17 +48,52 @@ var tick = function(t) {
 }
 
 var drawCube = function(cube) {
-	ctx.rotate(cube[1]);
+	var theta = -(cube[1] + Math.PI / 4);
+	var points = [];
+	points.push([-cube[0], -cube[0], -cube[0]]);
+	points.push([cube[0],  -cube[0], -cube[0]]);
+	points.push([cube[0],  -cube[0],  cube[0]]);
+	points.push([-cube[0], -cube[0],  cube[0]]);
 
+	// rotate point by cube rot angle
+	for (var i = 0; i < points.length; i++) {
+		var newPoint = [];
+		newPoint.push(points[i][0] * Math.cos(theta) -
+		              points[i][2] * Math.sin(theta));
+		newPoint.push(points[i][1]);
+		newPoint.push(points[i][0] * Math.sin(theta) +
+		              points[i][2] * Math.cos(theta));
+		points[i] = newPoint;
+	}
+
+	// draw top
 	ctx.beginPath();
-	ctx.moveTo(-cube[0], 0);
-	ctx.lineTo(cube[0], 0);
+	ctx.moveTo(points[0][0], points[0][1] + points[0][2] * ISO_FACTOR);
+	ctx.lineTo(points[1][0], points[1][1] + points[1][2] * ISO_FACTOR);
+	ctx.lineTo(points[2][0], points[2][1] + points[2][2] * ISO_FACTOR);
+	ctx.lineTo(points[3][0], points[3][1] + points[3][2] * ISO_FACTOR);
+	ctx.lineTo(points[0][0], points[0][1] + points[0][2] * ISO_FACTOR);
 	ctx.stroke();
 
-	ctx.rotate(-cube[1]);
+	// draw bottom
+	ctx.beginPath();
+	ctx.moveTo(points[0][0], -points[0][1] + points[0][2] * ISO_FACTOR);
+	ctx.lineTo(points[1][0], -points[1][1] + points[1][2] * ISO_FACTOR);
+	ctx.lineTo(points[2][0], -points[2][1] + points[2][2] * ISO_FACTOR);
+	ctx.lineTo(points[3][0], -points[3][1] + points[3][2] * ISO_FACTOR);
+	ctx.lineTo(points[0][0], -points[0][1] + points[0][2] * ISO_FACTOR);
+	ctx.stroke();
+
+	// draw sides
+	for (var i = 0; i < 4; i++) {
+		ctx.beginPath();
+		ctx.moveTo(points[i][0],  points[i][1] + points[i][2] * ISO_FACTOR);
+		ctx.lineTo(points[i][0], -points[i][1] + points[i][2] * ISO_FACTOR);
+		ctx.stroke();
+	}
 }
 
-tick(0)();
+tick(LOOP_LENGTH)();
 
 
 function r() {
