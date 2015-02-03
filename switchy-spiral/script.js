@@ -4,32 +4,45 @@ var ctx = canvas.getContext("2d");
 ctx.translate(canvas.width / 2, canvas.height / 2);
 ctx.strokeStyle = "rgb(0,0,0)";
 ctx.fillStyle = "rgb(0,0,0)";
+ctx.save();
 
-var SEG_THICKNESS = 20;
+var SEG_THICKNESS = 30;
 var ROT_SPEED = 0.01;
 
 var rot = 0;
 
-var render = function(rot) {
+var renderClear = function() {
+	ctx.restore();
 	ctx.clearRect(-canvas.width / 2, -canvas.height / 2,
-	               canvas.width, canvas.height);
+	              canvas.width, canvas.height);
+};
 
-	for (var h = 1; h <= 8; h++) {
-		for (var i = 0; i < 3; i++) {
-			drawSegment(i, h, rot);
-		}
+var render = function(rot) {
+	for (var i = 0; i < 3; i++) {
+		drawArm(rot);
+		ctx.rotate(Math.PI * 2 / 3);
 	}
 };
 
-var drawSegment = function(i, h, rot) {
-	var theta = rot * h + i * Math.PI * 2 / 3;
-	var x = Math.cos(theta) * h * SEG_THICKNESS;
-	var y = Math.sin(theta) * h * SEG_THICKNESS;
-	ctx.fillRect(x - 5, y - 5, 10, 10);
+var drawArm = function(rot) {
+	ctx.save();
+	for (var i = 0; i < 8; i++) {
+		ctx.rotate(rot);
+		ctx.translate(SEG_THICKNESS, 0);
+		drawSegment();
+	}
+	ctx.restore();
+};
+
+var drawSegment = function() {
+	var x = SEG_THICKNESS;
+	ctx.fillRect(x - 5, -5, 10, 10);
 };
 
 var tick = function() {
+	renderClear();
 	render(rot);
+	render(-rot);
 	rot += ROT_SPEED;
 	setTimeout(tick, 20);
 }
