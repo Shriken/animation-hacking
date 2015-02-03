@@ -1,5 +1,11 @@
+div#canvas-container {
+	width: 100%;
+	text-align: center;
+}
+
 canvas#canvas {
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    display: inline;
 }
