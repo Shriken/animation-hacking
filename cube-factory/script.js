@@ -25,7 +25,7 @@ var render = function(t) {
 var renderFaces = function(t) {
 	ctx.save();
 
-	ctx.rotate(-PI / 3);
+	ctx.rotate(-PI * 2 / 3);
 	for (var i = 0; i < 3; i++) {
 		ctx.save();
 
@@ -37,7 +37,7 @@ var renderFaces = function(t) {
 
 		ctx.restore();
 
-		ctx.rotate(PI / 3);
+		ctx.rotate(PI * 2 / 3);
 	}
 
 	ctx.restore();
