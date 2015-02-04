@@ -9,7 +9,7 @@ window.onload = function() {
 
 	var SEG_THICKNESS = 30;
 	var ROT_SPEED = 0.01;
-	var NUM_ARMS = 4;
+	var NUM_ARMS = 8;
 	var SQUARE_RAD = 4;
 
 	var rot = 0;
