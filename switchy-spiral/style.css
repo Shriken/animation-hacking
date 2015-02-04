@@ -9,3 +9,9 @@ canvas#canvas {
     border-width: 1px;
     display: inline;
 }
+
+div.ui-slider {
+	width: 250px;
+	position: absolute;
+	left: 17px;
+}
