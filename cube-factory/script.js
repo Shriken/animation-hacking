@@ -17,24 +17,46 @@ var PI = Math.PI;
 var render = function(t) {
 	ctx.clearRect(-canvas.width / 2, -canvas.height / 2,
 	              canvas.width, canvas.height);
-	renderLines(t);
-	renderCubes(t);
+
+	renderFaces(1 - cos(t));
+	renderCubes(1 - cos(t));
 };
 
-var renderLines = function(t) {
+var renderFaces = function(t) {
+	ctx.save();
+
+	ctx.rotate(-PI / 3);
+	for (var i = 0; i < 3; i++) {
+		ctx.save();
+
+		ctx.translate(0, 1.5 * RAD * t);
+		ctx.translate(0, -RAD * 3);
+		renderTwinFaces();
+		ctx.translate(0, -RAD * 3);
+		renderTwinFaces();
+
+		ctx.restore();
+
+		ctx.rotate(PI / 3);
+	}
+
+	ctx.restore();
+};
+
+var renderTwinFaces = function() {
+	drawTopFace();
+	ctx.rotate(PI);
+	drawTopFace();
+	ctx.rotate(PI);
 };
 
 var renderCubes = function(t) {
 	ctx.save();
 
-	ctx.translate(0, 1.5 * RAD * (1 - cos(t)));
+	ctx.translate(0, 1.5 * RAD * t);
 
 	drawCube();
 	ctx.translate(0, RAD * 3);
-	drawCube();
-	ctx.translate(0, -RAD * 6);
-	drawCube();
-	ctx.translate(0, -RAD * 3);
 	drawCube();
 
 	ctx.restore();
