@@ -4,8 +4,8 @@
 	var w = canvas.width;
 	var h = canvas.height;
 	ctx.translate(w / 2, h / 2);
-	ctx.fillStyle = "rgb(0,0,0)";
-	ctx.strokeStyle = "rgb(0,0,0)";
+	ctx.fillStyle = "white";
+	ctx.strokeStyle = "white";
 	ctx.save();
 
 	var CYCLE_LEN = 30;
@@ -38,12 +38,12 @@
 			}
 
 			drawFlippingTri(SIDE_LEN, t);
-			for (var i = 0; i < 4; i++) {
+			for (var i = 0; i < 5; i++) {
 				drawEquiTri(SIDE_LEN);
 				ctx.rotate(2 * Math.PI / 6);
 			}
 			drawFlippingTri(SIDE_LEN, t);
-			ctx.rotate(2 * Math.PI / 3);
+			ctx.rotate(2 * Math.PI / 6);
 
 			ctx.restore();
 			setTimeout(tick(t+1), 30);
