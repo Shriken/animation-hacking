@@ -15,8 +15,12 @@ var RAD = 60;
 var PI = Math.PI;
 
 var render = function(t) {
-	ctx.clearRect(-canvas.width / 2, -canvas.height / 2,
-	              canvas.width, canvas.height);
+	ctx.clearRect(
+		-canvas.width / 2,
+		-canvas.height / 2,
+		canvas.width,
+		canvas.height
+	);
 
 	renderFaces(1 - cos(t));
 	renderCubes(1 - cos(t));
@@ -30,10 +34,10 @@ var renderFaces = function(t) {
 		ctx.save();
 
 		ctx.translate(0, 1.5 * RAD * t);
-		ctx.translate(0, -RAD * 3);
-		renderTwinFaces();
-		ctx.translate(0, -RAD * 3);
-		renderTwinFaces();
+		for (var j = 0; j < 3; j++) {
+			ctx.translate(0, -RAD * 3);
+			renderTwinFaces();
+		}
 
 		ctx.restore();
 
@@ -44,10 +48,11 @@ var renderFaces = function(t) {
 };
 
 var renderTwinFaces = function() {
+	ctx.save();
 	drawTopFace();
 	ctx.rotate(PI);
 	drawTopFace();
-	ctx.rotate(PI);
+	ctx.restore();
 };
 
 var renderCubes = function(t) {
@@ -55,6 +60,8 @@ var renderCubes = function(t) {
 
 	ctx.translate(0, 1.5 * RAD * t);
 
+	drawCube();
+	ctx.translate(0, RAD * 3);
 	drawCube();
 	ctx.translate(0, RAD * 3);
 	drawCube();
